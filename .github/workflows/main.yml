@@ -13,21 +13,21 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: npm install
       - run: npm run lint
 
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: docker build -t web-app .
 
   audit:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/release'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: npm audit
       
   release:
@@ -36,7 +36,7 @@ jobs:
     if: github.ref == 'refs/heads/release'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
