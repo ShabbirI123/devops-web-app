@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-web-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devops-web-app
+  template:
+    metadata:
+      labels:
+        app: devops-web-app
+    spec:
+      containers:
+        - name: devops-web-app
+          image: shabbirislam/devops-web-app:11
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: "100m"
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: devops-web-app-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: devops-web-app
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
